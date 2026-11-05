@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АСК РЕБ - Журнал виявлення та подавлення</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function toggleSovenia(checkbox) {
+            const subBlock = document.getElementById('sovenia-sub-block');
+            subBlock.style.display = checkbox.checked ? 'block' : 'none';
+        }
+        function switchRole(role) {
+            document.getElementById('section-detection').style.display = role === 'detection' ? 'block' : 'none';
+            document.getElementById('section-suppression').style.display = role === 'suppression' ? 'block' : 'none';
+            document.getElementById('btn-det').className = role === 'detection' ? 'bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow' : 'bg-gray-200 text-gray-700 px-4 py-2 rounded-lg';
+            document.getElementById('btn-sup').className = role === 'suppression' ? 'bg-red-600 text-white px-4 py-2 rounded-lg font-bold shadow' : 'bg-gray-200 text-gray-700 px-4 py-2 rounded-lg';
+        }
+    </script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Верхня панель / Перемикач ролей -->
+        <div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-xl font-bold text-gray-800">🛡️ Система управління РЕБ</h1>
+            <div class="flex gap-3">
+                <button id="btn-det" onclick="switchRole('detection')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow">Оператор виявлення</button>
+                <button id="btn-sup" onclick="switchRole('suppression')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg">Оператор подавлення</button>
+            </div>
+        </div>
+
+        <!-- РОЗДІЛ: ОПЕРАТОР ВИЯВЛЕННЯ -->
+        <div id="section-detection" class="bg-white p-6 rounded-lg shadow space-y-4">
+            <h2 class="text-lg font-semibold text-blue-700 border-b pb-2">➕ Внесення даних: Оператор виявлення</h2>
+            
+            <form action="/add_detection" method="post" class="space-y-4">
+                
+                <!-- 1. Засоби виявлення -->
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">2. Засіб виявлення (можна кілька):</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                        <label><input type="checkbox" name="means" value="Аартос 8"> Аартос 8</label>
+                        <label><input type="checkbox" name="means" value="Аартос 10"> Аартос 10</label>
+                        <label><input type="checkbox" name="means" value="Аартос 13"> Аартос 13</label>
+                        <label><input type="checkbox" name="means" value="Азимут"> Азимут</label>
+                        <label><input type="checkbox" name="means" value="Буковель РП (Буянки)"> Буковель РП (Буянки)</label>
+                        <label><input type="checkbox" name="means" value="Буковель РП (Хотівля)"> Буковель РП (Хотівля)</label>
+                        <label><input type="checkbox" name="means" value="Совеня" onchange="toggleSovenia(this)"> <b>Совеня</b></label>
+                    </div>
+                    
+                    <!-- Підпапка Совеня -->
+                    <div id="sovenia-sub-block" style="display:none;" class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <span class="text-xs font-bold text-blue-800 uppercase block mb-1">Оберіть модифікацію Совеня:</span>
+                        <div class="grid grid-cols-3 md:grid-cols-5 gap-2 text-xs">
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 7"> Совеня 7</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 8"> Совеня 8</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 9"> Совеня 9</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 10"> Совеня 10</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 11"> Совеня 11</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 12"> Совеня 12</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 13"> Совеня 13</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 14"> Совеня 14</label>
+                            <label><input type="checkbox" name="sovenia_sub" value="Совеня 15"> Совеня 15</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- 2. Тип БпЛА -->
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">3. Тип виявленого БпЛА:</label>
+                        <select name="target_type" class="w-full p-2 border rounded" required>
+                            <option value="">Оберіть тип...</option>
+                            <option value="Зала">Зала</option>
+                            <option value="Суперкам">Суперкам</option>
+                            <option value="Орлан">Орлан</option>
+                            <option value="Куб">Куб</option>
+                            <option value="КВО">КВО</option>
+                            <option value="Шахед">Шахед</option>
+                            <option value="Герань">Герань</option>
+                            <option value="Гербера">Гербера</option>
+                            <option value="ФПВ">ФПВ</option>
+                            <option value="Молнія">Молнія</option>
+                        </select>
+                    </div>
+
+                    <!-- 3. Первинне виявлення -->
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">4. Вперше виявлено (наказ):</label>
+                        <select name="first_order" class="w-full p-2 border rounded" required>
+                            <option value="">Оберіть наказ...</option>
+                            {% for i in range(7, 16) %}
+                            <option value="{{ i }} приказ">{{ i }} приказ</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- 4. Населений пункт / Ділянка -->
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">5. Населений пункт (первинно):</label>
+                        <input type="text" name="location_first" placeholder="Напр. Сеньківка" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+
+                <!-- 5. Маршрут цілі -->
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Маршрут цілі (накази / напрямки):</label>
+                    <div class="grid grid-cols-3 md:grid-cols-5 gap-2 text-sm mb-2">
+                        {% for i in range(7, 16) %}
+                        <label><input type="checkbox" name="routes" value="{{ i }} приказ"> {{ i }} приказ</label>
+                        {% endfor %}
+                    </div>
+                    <input type="text" name="custom_route" placeholder="Або інший населений пункт / власний опис маршруту" class="w-full p-2 border rounded text-sm">
+                </div>
+
+                <div>
+                    <input type="text" name="notes" placeholder="Примітки (за потреби)" class="w-full p-2 border rounded">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow">
+                    Зберегти запис виявлення
+                </button>
+            </form>
+        </div>
+
+        <!-- РОЗДІЛ: ОПЕРАТОР ПОДАВЛЕННЯ (Заглушка) -->
+        <div id="section-suppression" class="bg-white p-6 rounded-lg shadow space-y-4" style="display:none;">
+            <h2 class="text-lg font-semibold text-red-700 border-b pb-2">➕ Внесення даних: Оператор подавлення</h2>
+            <p class="text-gray-500 text-sm">Цей розділ можна налаштувати за аналогічним принципом під ваші параметри подавлення.</p>
+        </div>
+
+        <!-- АНАЛІТИЧНИЙ БЛОК -->
+        <div class="bg-white p-6 rounded-lg shadow space-y-3">
+            <h2 class="text-lg font-semibold text-gray-800 border-b pb-2">📊 Аналітика (Підрахунок однакових цілей на ділянках)</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2 border">Тип цілі</th>
+                            <th class="p-2 border">Ділянка / Наш. пункт</th>
+                            <th class="p-2 border">Кількість фіксацій</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in analytics %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-2 border font-bold text-blue-600">{{ row.target_type }}</td>
+                            <td class="p-2 border">{{ row.location_first }}</td>
+                            <td class="p-2 border font-bold">{{ row.count }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="3" class="p-4 text-center text-gray-400">Даних для аналізу поки немає</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ТАБЛИЦЯ ЗАПИСІВ -->
+        <div class="bg-white p-6 rounded-lg shadow space-y-3">
+            <h2 class="text-lg font-semibold text-gray-800 border-b pb-2">📋 Журнал виявлених цілей</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-700">
+                            <th class="p-2 border">Час</th>
+                            <th class="p-2 border">Засоби</th>
+                            <th class="p-2 border">Ціль</th>
+                            <th class="p-2 border">Первинний наказ</th>
+                            <th class="p-2 border">Н.П.</th>
+                            <th class="p-2 border">Маршрут</th>
+                            <th class="p-2 border">Примітки</th>
+                            <th class="p-2 border text-center">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in records %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-2 border text-gray-500 whitespace-nowrap">{{ r.date_time }}</td>
+                            <td class="p-2 border font-medium">{{ r.detection_means }}</td>
+                            <td class="p-2 border font-bold text-blue-600">{{ r.target_type }}</td>
+                            <td class="p-2 border">{{ r.first_order }}</td>
+                            <td class="p-2 border">{{ r.location_first }}</td>
+                            <td class="p-2 border">{{ r.route_orders }}</td>
+                            <td class="p-2 border">{{ r.notes }}</td>
+                            <td class="p-2 border text-center">
+                                <a href="/delete/{{ r.id }}" onclick="return confirm('Видалити запис?')" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">Видалити</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="8" class="p-4 text-center text-gray-400">Записів у базі немає</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
